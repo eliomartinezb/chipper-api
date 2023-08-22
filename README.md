@@ -68,14 +68,12 @@ Please update the following line in this `README.md` file to include your estima
 
 Estimated Time Required: [Your Estimate Here]
 
-After updating the estimate, commit your changes using the following command:
+> After updating the estimate and right before you start coding, commit your changes using the following command:
 `git add README.md && git commit -m "Task 1 estimated" && git push`
-
-Please make sure to commit this right before you start working on the task.
 
 🏁 **ONCE YOU HAVE COMPLETED THE TASK**
 
-After implementing the changes, commit your work using the following commands:
+> After implementing the changes, commit your work using the following commands:
 `git add -A && git commit -m "Added the ability for users to favorite authors" && git push`
 
 ## 2. Update the payload of `GET /favorites` to list posts and users
@@ -116,14 +114,12 @@ Please update the following line in this `README.md` file to include your estima
 
 Estimated Time Required: [Your Estimate Here]
 
-After updating the estimate, commit your changes using the following command:
+> After updating the estimate and right before you start coding, commit your changes using the following command:
 `git add README.md && git commit -m "Task 2 estimated" && git push`
-
-Please make sure to commit this right before you start working on the task.
 
 🏁 **ONCE YOU HAVE COMPLETED THE TASK**
 
-After implementing the changes, commit your work using the following commands:
+> After implementing the changes, commit your work using the following commands:
 `git add -A && git commit -m "Updated structure of favorites index payload" && git push`
 
 ## 3. Notify a user whenever one of their favored users creates a new post.
@@ -146,14 +142,12 @@ Please update the following line in this `README.md` file to include your estima
 
 Estimated Time Required: [Your Estimate Here]
 
-After updating the estimate, commit your changes using the following command:
+> After updating the estimate and right before you start coding, commit your changes using the following command:
 `git add README.md && git commit -m "Task 3 estimated" && git push`
-
-Please make sure to commit this right before you start working on the task.
 
 🏁 **ONCE YOU HAVE COMPLETED THE TASK**
 
-After implementing the feature, commit your work using the following commands:
+> After implementing the feature, commit your work using the following commands:
 `git add -A && git commit -m "Added notification for users when new post of favorite user is created" && git push`
 
 ## 4. Import users
@@ -172,15 +166,35 @@ Please update the following line in this `README.md` file to include your estima
 
 Estimated Time Required: [Your Estimate Here]
 
-After updating the estimate, commit your changes using the following command:
+> After updating the estimate and right before you start coding, commit your changes using the following command:
 `git add README.md && git commit -m "Task 4 estimated" && git push`
-
-Please make sure to commit this right before you start working on the task.
 
 🏁 **ONCE YOU HAVE COMPLETED THE TASK**
 
-After implementing the feature, commit your work using the following commands:
+> After implementing the feature, commit your work using the following commands:
 `git add -A && git commit -m "Added command to import users" && git push`
+
+## EXTRA CREDIT: Add the ability to post images
+
+This is an _optional task_, and we would appreciate your consideration in implementing it. However, there is no pressure to do so.
+
+The objective is to allow users to attach an image while creating a post. To achieve this, you need to enhance the `POST /posts` endpoint to support optional image attachments. The allowed image file extensions are JPG, PNG, GIF, and WebP.
+
+Once an image is attached, the endpoint should save it appropriately. The URL of the saved image should then be included in the `PostResource` so it is available on the posts payload.
+
+✋ **BEFORE YOU BEGIN**
+
+> Please update the following line in this `README.md` file to include your estimate of the time required for completion.
+
+Estimated Time Required: [Your Estimate Here]
+
+> After updating the estimate and right before you start coding, commit your changes using the following command:
+`git add README.md && git commit -m "Extra Task estimated" && git push`
+
+🏁 **ONCE YOU HAVE COMPLETED THE TASK**
+
+> After implementing the changes, commit your work using the following commands:
+`git add -A && git commit -m "Add the ability to post images" && git push`
 
 # Ready for the next challenge?
 
