@@ -35,9 +35,7 @@ Please invest some time in acquainting yourself with the codebase, including Mod
 
 Duplicate the `.env.example` file as `.env` and edit the lines related to the database connection. You'll need to create a local MySQL database, you can call it "chipper". Then you can install dependencies and seed the database by running `composer install && php artisan migrate:fresh --seed`.
 
-Upload this code to a PRIVATE repository in GitHub. Invite the user [harlekoy](https://github.com/harlekoy/) to it.
-
-![Image](https://github.com/vueschool/chipper-api/assets/10015302/3c70c9b0-269a-4f76-9304-e31a54c8b2a9)
+Fork this repository and make sure it's public.
 
 Once you are ready, proceed to address the following tasks one by one.
 
