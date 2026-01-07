@@ -3,10 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends Authenticatable
 {
@@ -45,9 +46,9 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function favorites(): HasMany
+    public function favorites(): MorphMany
     {
-        return $this->hasMany(Favorite::class);
+        return $this->morphMany(Favorite::class, 'favorite');
     }
 
     public function posts(): HasMany

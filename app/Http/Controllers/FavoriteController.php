@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateFavoriteRequest;
+use App\Http\Resources\FavoriteResource;
+use App\Models\Favorite;
 use App\Models\Post;
 use Illuminate\Http\Request;
-use App\Http\Requests\CreateFavoriteRequest;
-use Illuminate\Http\Response;
+use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 /**
  * @group Favorites
@@ -17,19 +19,24 @@ class FavoriteController extends Controller
     public function index(Request $request)
     {
         $favorites = $request->user()->favorites;
+
         return FavoriteResource::collection($favorites);
     }
 
     public function store(CreateFavoriteRequest $request, Post $post)
     {
-        $request->user()->favorites()->create(['post_id' => $post->id]);
+        $type = get_class($post);
 
-        return response()->noContent(Response::HTTP_CREATED);
+        Favorite::firstOrCreate(['favorite_type' => $type, 'favorite_id' => $post->id, 'user_id' => $request->user()->id]);
+
+        return response()->noContent(ResponseAlias::HTTP_CREATED);
     }
 
     public function destroy(Request $request, Post $post)
     {
-        $favorite = $request->user()->favorites()->where('post_id', $post->id)->firstOrFail();
+        $type = get_class($post);
+
+        $favorite = Favorite::where('favorite_type', $type)->where('favorite_id', $post->id)->firstOrFail();
 
         $favorite->delete();
 
