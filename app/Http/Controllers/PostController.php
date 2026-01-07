@@ -26,11 +26,17 @@ class PostController extends Controller
     {
         $user = auth()->user();
 
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('posts', 'public');
+        }
+
         // Create a new post
         $post = Post::create([
             'title' => $request->input('title'),
             'body' => $request->input('body'),
             'user_id' => $user->id,
+            'image_path' => $imagePath,
         ]);
 
         $post_event = Post::where('id', $post->id)->with('user')->first();
