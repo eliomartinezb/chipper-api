@@ -9,6 +9,21 @@ class FavoriteResource extends ResourceCollection
 {
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        $posts = $this->collection
+            ->where('favorite_type', \App\Models\Post::class)
+            ->map(fn ($f) => $f->favorite)
+            ->filter()
+            ->values();
+
+        $users = $this->collection
+            ->where('favorite_type', \App\Models\User::class)
+            ->map(fn ($f) => $f->favorite)
+            ->filter()
+            ->values();
+
+        return [
+            'posts' => PostResource::collection($posts),
+            'users' => UserResource::collection($users),
+        ];
     }
 }

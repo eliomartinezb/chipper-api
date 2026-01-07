@@ -46,13 +46,18 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function favorites(): MorphMany
+    public function favorites(): HasMany
     {
-        return $this->morphMany(Favorite::class, 'favorite');
+        return $this->hasMany(Favorite::class);
     }
 
     public function posts(): HasMany
     {
         return $this->hasMany(Post::class);
+    }
+
+    public function favoritesReceived(): MorphMany
+    {
+        return $this->morphMany(Favorite::class, 'favorite', null, 'favorite_id', 'id');
     }
 }
