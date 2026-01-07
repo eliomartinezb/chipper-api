@@ -2,9 +2,11 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Support\Arr;
 use App\Models\User;
+use App\Notifications\NewPostFromFavoritedUser;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 
 class PostTest extends TestCase
@@ -34,13 +36,13 @@ class PostTest extends TestCase
             ->assertJsonStructure([
                 'data' => [
                     'id', 'title', 'body',
-                ]
+                ],
             ])
             ->assertJson([
                 'data' => [
                     'title' => 'Test Post',
                     'body' => 'This is a test post.',
-                ]
+                ],
             ]);
 
         $this->assertDatabaseHas('posts', [
@@ -70,7 +72,7 @@ class PostTest extends TestCase
                 'data' => [
                     'title' => 'Updated title',
                     'body' => 'Updated body.',
-                ]
+                ],
             ]);
 
         $this->assertDatabaseHas('posts', [
@@ -123,6 +125,44 @@ class PostTest extends TestCase
 
         $this->assertDatabaseMissing('posts', [
             'id' => $id,
+        ]);
+    }
+
+    public function test_a_user_can_create_a_post_and_send_emails_to_following_users()
+    {
+        $user = User::factory()->create();
+
+        $users = User::factory(2)->create();
+
+        foreach ($users as $user_for) {
+            $this->actingAs($user_for)
+                ->postJson(route('favorites.users.store', ['user' => $user]))
+                ->assertCreated();
+        }
+        Notification::fake();
+
+        $response = $this->actingAs($user)->postJson(route('posts.store'), [
+            'title' => 'Test Post',
+            'body' => 'This is a test post.',
+        ]);
+        Notification::assertSentTo($users, NewPostFromFavoritedUser::class);
+
+        $response->assertCreated()
+            ->assertJsonStructure([
+                'data' => [
+                    'id', 'title', 'body',
+                ],
+            ])
+            ->assertJson([
+                'data' => [
+                    'title' => 'Test Post',
+                    'body' => 'This is a test post.',
+                ],
+            ]);
+
+        $this->assertDatabaseHas('posts', [
+            'title' => 'Test Post',
+            'body' => 'This is a test post.',
         ]);
     }
 }

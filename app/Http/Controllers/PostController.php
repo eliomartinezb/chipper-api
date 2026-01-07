@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\PostCreated;
+use App\Http\Requests\CreatePostRequest;
+use App\Http\Requests\DestroyPostRequest;
+use App\Http\Requests\UpdatePostRequest;
 use App\Http\Resources\PostResource;
 use App\Models\Post;
-use App\Http\Requests\CreatePostRequest;
-use App\Http\Requests\UpdatePostRequest;
-use App\Http\Requests\DestroyPostRequest;
 
 /**
  * @group Posts
@@ -23,7 +24,7 @@ class PostController extends Controller
 
     public function store(CreatePostRequest $request)
     {
-        $user = $request->user();
+        $user = auth()->user();
 
         // Create a new post
         $post = Post::create([
@@ -31,6 +32,10 @@ class PostController extends Controller
             'body' => $request->input('body'),
             'user_id' => $user->id,
         ]);
+
+        $post_event = Post::where('id', $post->id)->with('user')->first();
+
+        event(new PostCreated($post_event));
 
         return new PostResource($post);
     }
