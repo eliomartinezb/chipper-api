@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\PostCreated;
+use App\Http\Requests\CreatePostRequest;
+use App\Http\Requests\DestroyPostRequest;
+use App\Http\Requests\UpdatePostRequest;
 use App\Http\Resources\PostResource;
 use App\Models\Post;
-use App\Http\Requests\CreatePostRequest;
-use App\Http\Requests\UpdatePostRequest;
-use App\Http\Requests\DestroyPostRequest;
 
 /**
  * @group Posts
@@ -23,14 +24,24 @@ class PostController extends Controller
 
     public function store(CreatePostRequest $request)
     {
-        $user = $request->user();
+        $user = auth()->user();
+
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('posts', 'public');
+        }
 
         // Create a new post
         $post = Post::create([
             'title' => $request->input('title'),
             'body' => $request->input('body'),
             'user_id' => $user->id,
+            'image_path' => $imagePath,
         ]);
+
+        $post_event = Post::where('id', $post->id)->with('user')->first();
+
+        event(new PostCreated($post_event));
 
         return new PostResource($post);
     }
